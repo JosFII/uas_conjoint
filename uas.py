@@ -5,7 +5,7 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 import seaborn as sns
 import itertools
-sns.set(style="whitegrid")
+sns.set_theme(style="whitegrid")
 
 st.markdown(
 '''
@@ -269,4 +269,5 @@ Jadi berdasarkan hasil analisis, diberikan rekomendasi berikut:
 - karena pembeli suka pizza yang lebih berat, mungkin bisa dicoba membuat pizza yang memiliki berat yang lebih tinggi
 - karena weight memiliki feature importance yang sangat tinggi, mungkinbisa menambah kan opsi pada attribut lain seperti topping atau crust, supaya pembeli tidak hanya mementingkan berat pizza
 - karena size pizza kurang penting pada pembeli, maka dapat dibuat supaya hanya menjual pizza pada satu size saja, supaya pengembangan dapat difokuskan pada bagian lain saja.
+
 ''')
