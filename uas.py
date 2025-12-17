@@ -25,7 +25,7 @@ unsafe_allow_html=True
 st.title("Analisis Conjoint of Data Pizza")
 st.markdown('dibuat oleh: Joseph F.H. (20234920002)')
 st.write('''
-conjoint analysis merupakan merode decomposional yang mengestimasikan preference dari suatu consumer berdasarkan level dari alternatif suatu atribut (Vithala R. Rao, 2014)
+conjoint analysis merupakan metode decomposional yang mengestimasikan preference dari suatu consumer berdasarkan level dari alternatif suatu atribut (Vithala R. Rao, 2014)
 ''')
 
 
@@ -33,7 +33,7 @@ st.write('''
 data yang digunakan merupakan data ranking pizza yang diambil dari kaggle  \n
 berikut link dari data: https://www.kaggle.com/datasets/sachinsin8h/pizza-attributes-dataset-for-conjoint-analysis/data  \n
 berikut preview dari data  \n
-         dat=pd.read_csv('pizza_data.csv')
+        dat=pd.read_csv('pizza_data.csv')
     dat=pd.read_csv('pizza_data.csv')
     df_attributes = dat.copy()
     df_attributes = df_attributes.drop(columns=['ranking'], errors='ignore')
@@ -102,7 +102,7 @@ y = dat["ranking"]
 
 X
 st.write('''
-selanjutnya akan ditambahkan variabel constant sebagai intercept untuk atribut.  \n
+karena akan dilakukan regresi OLS maka akan ditambahkan variabel constant sebagai intercept untuk atribut.  \n
          X_const = sm.add_constant(X)
 ''')
 X_const = sm.add_constant(X)
@@ -121,7 +121,10 @@ pertama akan dibikin modelnya.   \n
 model = sm.OLS(y_transformed, X_const).fit()
 st.write(model.summary())
 st.write('''
-selanjutnya akan dilihat Part-Worth Utilities dari setiap level atribut.  \n
+dari hasil dari regresi OLS, coeficent dari setiap level atribut akan digunakan sebagai nilai part worth utilities level atribut tersebut.
+''')
+st.write('''
+selanjutnya akan divisualisasikan Part-Worth Utilities dari setiap level atribut.  \n
          part_worths = pd.DataFrame({
         "Attribute_Level": X_const.columns,
         "Utility": model.params.values
@@ -155,19 +158,19 @@ plt.ylabel('Attribute Level')
 st.pyplot(plot1)
 
 st.write('''
-berdasarkan hasil grafik hal yang dipalingsukai pembeli sebagai berikut:  
+berdasarkan hasil grafik hal yang paling disukai pembeli sebagai berikut:  
 - untuk weight, pelanggan paling suka pizza berat 400g dan paling surang mengukai pizza berat 100g, jadi dapat dibilang bahwa pelangan lebih suka pizza yang lebih berat.  
 - untuk crust, pembeli paling suka crust thin dan paling tidak suka crust thick, jadi pembeli lebih suka crust thin dibanding crust thick
 - untuk topping, pembeli paling suka topping panner dan paling tidak suka topping mushroom, jadi pembeli lebih suka topping panner dibanding topping mushroom
-- untuk price, pembeli paling suka price $4 dan paling tidak suka price $1, jadi pembeli lebih suka pizza dengan harga yang lebih mahal.
+- untuk price, pembeli paling suka price 4 dan paling tidak suka price 1, jadi pembeli lebih suka pizza dengan harga yang lebih mahal.
 - untuk brand, pembeli paling suka brand oven story dan paling tidak suka brand pizzahut, jadi berikut brand yang disukai pembeli ovenstory > onesta== domino > pizzahut.
 - untuk cheese, pembeli paling suka cheese chedar dan plaing tidak suka cheese mozzarella, jadi pembeli lebih suka pizza yang menggunakan keju chedar dibanding keju mozzarella.
 - untuk size, pembeli paling suka size large dan paling tidak suka size medium, jadi para pembeli leih suka pizza yang lebih besar.
-- unuk spicy, pembeli paling suka spicy level normal dan paling tidak suka spicy level extra, jadi pembeli lebih suka pizza yang kurang pedas.
+- untuk spicy, pembeli paling suka spicy level normal dan paling tidak suka spicy level extra, jadi pembeli lebih suka pizza yang kurang pedas.
 ''')
 
 st.write('''
-selanjutnya akan dilihat Relative Importance setiap atribut.   \n
+selanjutnya akan dilihat Relative Importance setiap atribut. relative importance akan dihitung dan divisualisasikan dengan kode berikut:   \n
          utility_dict = dict(zip(part_worths['Attribute_Level'], part_worths['Utility']))
 
 
@@ -267,7 +270,6 @@ jadi pizza optimal bedasarkan hasil conjoint analysis adalah sebagai berikut
 st.write('''
 Jadi berdasarkan hasil analisis, diberikan rekomendasi berikut:
 - karena pembeli suka pizza yang lebih berat, mungkin bisa dicoba membuat pizza yang memiliki berat yang lebih tinggi
-- karena weight memiliki feature importance yang sangat tinggi, mungkinbisa menambah kan opsi pada attribut lain seperti topping atau crust, supaya pembeli tidak hanya mementingkan berat pizza
+- karena akan menjadi susah jika membuat perkembangan jika pembeli hanya mementingkan satu atribut, mungkin bisa menambah kan opsi pada attribut lain seperti topping atau crust, supaya pembeli tidak hanya mementingkan berat pizza
 - karena size pizza kurang penting pada pembeli, maka dapat dibuat supaya hanya menjual pizza pada satu size saja, supaya pengembangan dapat difokuskan pada bagian lain saja.
-
 ''')
